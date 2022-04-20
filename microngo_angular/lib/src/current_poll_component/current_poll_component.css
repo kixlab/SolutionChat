@@ -1,0 +1,42 @@
+ol {
+    padding-left: 0px;
+}
+
+.step-bar {
+    margin-top: 5px;
+}
+
+.step-bar > .field {
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.step-circle {
+    display: inline-block;
+    background: #d0d0d0;
+    color: white;
+    width: 20px;
+    border-radius: 100%;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.step-circle.activated {
+    display: inline-block;
+    background: #26a69a;
+    color: white;
+    width: 20px;
+    border-radius: 100%;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.step-text {
+    display: inline-block;
+    color: #d0d0d0
+}
+
+.step-text.activated {
+    display: inline-block;
+    color: black;
+}

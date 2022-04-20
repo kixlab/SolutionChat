@@ -1,0 +1,6 @@
+targets:
+  $default:
+    builders:
+      angular|angular:
+      angular_components|scss_builder:
+        enabled: True

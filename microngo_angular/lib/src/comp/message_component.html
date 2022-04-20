@@ -1,0 +1,57 @@
+<div class="chatroom-division" *ngIf="message.name == 'Bot'">
+    <span>{{message.text}}</span>
+</div>
+
+<div class="chatroom-utterances-wrapper" [class.moderator]="isModerator" *ngIf="message.name != 'Bot'">
+    <div class="chatroom-utterances-container">
+
+        <div class="user-box" [class.current]="isMyMessage" [class.moderator]="isModerator">{{appComponent.usernameTranslator(message.name)}}</div>
+        <div class="chatroom-utterances-text">
+            {{message.text}}
+            <div class="btn-add" *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3)">
+                <span (click)="show_reply()" *ngIf="chatService.experimentMode == 3 && chatService.amIModerator() && messageActions().length == 0 && !isMyMessage && !replyVisible">답글 달기</span>
+                <span (click)="appComponent.addAnswerByClick(message.text)">후보 등록</span>
+            </div>
+        </div>
+
+        <!-- auto -->
+        <div class="feedback" *ngIf="(chatService.amIModerator() || chatService.isObserver) && messageActions().length > 0 && (chatService.experimentMode == 2 || chatService.experimentMode == 3)">
+            <div class="btn" (click)="takeAction(action)" *ngFor="let action of messageActions()">
+                {{action.title}}
+            </div>
+        </div>
+
+        <!-- non-auto -->
+        <div class="feedback" *ngIf="replyVisible">
+            <div class="btn" *ngIf="!replyUsed[0]" (click)="send_reply(0, '그렇군요', message.id)">
+                그렇군요
+            </div>
+            <div class="btn" *ngIf="!replyUsed[1]" (click)="send_reply(1, '의견 감사합니다', message.id)">
+                의견 감사합니다
+            </div>
+            <div class="btn" *ngIf="!replyUsed[2]" (click)="send_reply(2, '증거가 있을까요?', message.id)">
+                증거가 있을까요?
+            </div>
+            <div class="btn" *ngIf="!replyUsed[3]" (click)="send_reply(3, '좀더 설명해주실 수 있나요?', message.id)">
+                좀더 설명해주실 수 있나요?
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="chatroom-utterances-wrapper reply moderator" *ngIf="message.name != 'Bot' && messageFeedbacks().length > 0">
+    <div class="chatroom-utterances-container">
+
+        <div class="replies">
+            <div class="replies-container" *ngFor="let feedback of messageFeedbacks()">
+                <i class="material-icons">subdirectory_arrow_right</i>
+                <div class="chatroom-utterances-wrapper" [class.moderator]="isModerator">
+                    <div class="user-box moderator" [class.current]="chatService.amIModerator()">{{appComponent.usernameTranslator(feedback.name)}}</div>
+                    <div class="chatroom-utterances-text">{{feedback.text}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

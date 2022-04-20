@@ -1,0 +1,241 @@
+
+<div class="row">
+
+<!-- Overview -->
+<div class="col col-3">
+    <div class="overview-wrapper">
+        <div class="overview-cover" [class.hide]="chatService.enabled">
+            비활성화 상태입니다.
+        </div>
+        <div class="overview-title-wrapper">
+          <div class="overview-title" (click)="observerPopup()">{{chatService.roomTitle}}</div>
+        </div>
+        <div class="overview-content-wrapper">
+            <div class="overview-tabs">
+                <div class="overview-tab-item-container">
+                    <div class="overview-graphic-line-upper"></div>
+                    <div class="overview-graphic-line-lower"></div>
+                    <div class="overview-graphic-line-hor"></div>
+                    <div class="overview-tab-item"
+                        (click)="setTopicPage(0)" [class.active]="chatService.topicPage == 0">문제 분석</div>
+                </div>
+
+                <div class="overview-tab-item-container">
+                    <div class="overview-graphic-line-upper"></div>
+                    <div class="overview-graphic-line-hor"></div>
+                    <div class="overview-tab-item"
+                        (click)="setTopicPage(1)" [class.active]="chatService.topicPage == 1">해결책 토의</div>
+                </div>
+                
+            </div>
+            <div class="overview-sections-container" [class.moderator]="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && chatService.amIModerator()">
+                <div class="overview-sections-wrapper">
+                    <template ngFor let-topicName [ngForOf]="topicPage()">
+                    <div class="overview-section-container pseudo"
+                         *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && chatService.amIModerator() && isCurrentTopic(topicName)"
+                         (click)="addTopicAbove(topicName)">
+                        <div class="overview-graphic-line-upper"></div>
+                        <div class="overview-graphic-line-lower"></div>
+                        <a class="btn overview-add-section-button top">
+                            <i class="material-icons">add</i>
+                        </a> 
+                        <div class="overview-section">새 항목 추가하기</div>
+                    </div>
+
+                    <div class="overview-section-container"
+                        [class.current]="(chatService.experimentMode == 0 || chatService.experimentMode == 2) || isCurrentTopic(topicName)"
+                        [class.later]="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && isCurrentTopic(topicName) == false && topicDone(topicName) == false"
+                    >
+                        <div class="overview-graphic-line-upper"></div>
+                        <div class="overview-graphic-line-lower"></div>
+                        <div class="overview-graphic-line-hor"></div>
+                        <div class="overview-section">
+                            
+                            <a class="btn overview-next-button"
+                                *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && chatService.amIModerator() && isCurrentTopic(topicName)"
+                                (click)="topicCompletedExecute(topicName)"
+                            >
+                                다음 단계<i class="material-icons">keyboard_arrow_right</i>
+                            </a>
+                            
+                            <div class="overview-section-title" (click)="setCurrnetTopicExecute(topicName)">{{topicName}}</div>
+                             
+                            <div class="overview-section-list" 
+                                *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && isCurrentTopic(topicName) == false">
+                                <div class="section-list-item active"
+                                    *ngFor="let answerName of topicOpinions(topicName)"
+                                    [class.active]="topicAnswerTop(topicName, answerName)">{{answerName}}</div>
+                            </div>
+                            <div class="overview-section-list"  *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && isCurrentTopic(topicName)">
+                                <div class="section-list-item"
+                                    *ngFor="let answerName of topicOpinions(topicName)"
+                                    [class.active]="topicVotorIsMe(topicName, answerName, chatService.me?.username ?? '')">
+                                    <a class="list-item-like" (click)="topicVote(topicName, answerName)" *ngIf="!chatService.amIModerator()"><i class="material-icons">thumb_up</i></a> 
+                                    <a class="list-item-delete" (click)="chatService.delete_answer(topicName, answerName)" *ngIf="chatService.amIModerator()"><i class="material-icons">delete</i></a> 
+                                    <div class="section-item-content">
+                                    <div class="section-item-bar-wrapper">
+                                        <div class="section-item-bar" [style.width]="votingRate(topicVoteCount(topicName, answerName), calcTotal(chatService.presence.length))"></div>
+                                    </div>
+                                    <div class="section-item-text">{{answerName}}</div>
+                                    <div class="section-item-population">({{topicVoteCount(topicName, answerName)}}/{{calcTotal(chatService.presence.length)}})</div>
+                                    </div>
+                                </div>
+                                <div class="input-container"> <input class="input-list-new" type="text" [(ngModel)]="addAnswerValue" (keyup.enter)="addAnswerExecute()" placeholder="내용 입력 후 엔터키 누르기"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overview-section-container pseudo" 
+                         *ngIf="(chatService.experimentMode == 1 || chatService.experimentMode == 3) && chatService.amIModerator() && isCurrentTopic(topicName)"
+                         (click)="addTopicBelow(topicName)">
+                        <div class="overview-graphic-line-upper"></div>
+                        <div class="overview-graphic-line-lower"></div>
+                        <a class="btn overview-add-section-button bottom">
+                            <i class="material-icons">add</i>
+                        </a> 
+                        <div class="overview-section">새 항목 추가하기</div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat -->
+<div class="col col-5">
+    <div class="chatroom-container">
+        <div class="chatroom-dark-cover" [class.hide]="chatService.enabled">
+            <div class="chatroom-dark-cover-content">
+            <div class="chatroom-cover-text-group">
+                <div class="cover-subtitle">토의 주제</div>
+                <div class="cover-title">{{chatService.roomTitle}}</div>
+                <div class="cover-explanation">주어진 20분 동안 다양한 의견 제시와 논리적인 추론을 통해, <br>문제를 분석하고 해결책을 도출하는 것이 토의의 목표입니다.</div>
+            </div>
+            <div class="chatroom-cover-text-group">
+                <div class="cover-subtitle">역할</div>
+                <div class="cover-title" *ngIf="chatService.amIModerator()">사회자</div>
+                <div class="cover-title" *ngIf="!chatService.amIModerator()">토의 참여자</div>
+            </div>
+            <!-- <div class="button-wrapper"><a class="button-start">토의 시작하기</a></div> -->
+            </div>
+        </div>
+        <div class="chatroom-info-container">
+            <div class="chatroom-info-wrapper">
+            <div class="chatroom-users-container">
+                <div class="chatroom-users-wrapper">
+                    <span class="chatroom-info-title">참가자</span>
+                    <div class="user-box"
+                        [class.moderator]="member.username == chatService.moderator_name"
+                        [class.current]="member.username == chatService.me?.username"
+                        (click)="show_designate(member.id)"
+                        *ngFor="let member of chatService.presence">{{usernameTranslator(member.username)}}</div>
+                </div>
+            </div>
+            <div class="chatroom-time-container">
+                <div class="chatroom-info-title">총 토의시간</div>
+                <div class="chatroom-info-content">{{totalTime}}</div>
+            </div>
+            </div>
+        </div>
+        <div class="chatroom-content-container">
+             <!-- Feedback area for moderator only -->
+             <div class="feedback-wrapper" *ngIf="(chatService.experimentMode == 2 || chatService.experimentMode == 3) && (chatService.amIModerator() || isObserving())">
+                <div class="feedback-default" *ngIf="chatService.uncompletedAdvices().length == 0">
+                    <i class="material-icons">done</i>이곳에 토론에 도움이 되는 도움말이 표시됩니다
+                </div>
+
+                
+                <template ngFor let-advice [ngForOf]="chatService.advices.toList()" let-i = "index">
+                    <!-- <input type="radio" name="tabs" id="{{ 'tab' + i }}" *ngIf="i % 3 == 0">
+                    <label [attr.for]="'tab' + i" *ngIf="i % 3 == 0">Tab {{i}}</label> -->
+                    <div class="feedback-card"
+                        [class.complete]="advice.kind.contains('-done')"
+                        [class.clicked]="advice.sent == true"
+                    >
+                        <a class="feedback-card-close" (click)="chatService.removeAdvice(advice)">
+                            <i class="material-icons">clear</i>
+                        </a>
+                        <div class="feedback-card-before" (click)="chatService.useAdvice(advice)" *ngIf="advice.sent == false && !advice.kind.contains('-done')">
+                            <div class="feedback-card-message"> <!-- [class.tooltip]="advice.message.length > 25" -->
+                                {{advice.message}}
+                            </div>
+                            <div class="feedback-card-reason">
+                                <i class="material-icons">info</i> {{advice.title}}
+                            </div>
+                            <div class="feedback-card-tooltip">
+                                {{advice.message}}
+                            </div>
+                        </div>
+                        <div class="feedback-card-after" *ngIf="advice.sent == true">
+                            <div class="feedback-card-reason">
+                                <i class="material-icons">info</i> 채팅 메세지 입력부분에 내용이 옮겨졌습니다
+                            </div>
+                        </div>
+                    </div>
+
+                </template>
+            </div>
+            <!-- Feedback area ended -->
+
+            <div class="chatroom-content-wrapper" #chatScrollDiv>
+                <message *ngFor="let message of chatService.messageVisibles" [message]="message" [chatService]="chatService" [appComponent]="self()" ></message>
+            </div>
+        </div>
+        <div class="chatroom-chatbox-container">
+            <div class="chatbox-input-wrapper">
+                <textarea class="chatbox-input" type="text" placeholder="메세지 입력하기" [(ngModel)]="chatInputText" (keyup)="chatService.typing()" (keyup.enter)="addMessage();"></textarea>
+                <div class="chatbox-sub-text">{{typingPresenceText}}&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<modal [visible]="addTopicVisible" *ngIf="addTopicVisible">
+    <material-dialog class="basic-scrolling-dialog">
+        <h1 header>토론주제 추가</h1>
+        <p>새롭게 추가하고자 하는 토론주제 제목을 적어주세요</p>
+        <div class="fill-width">
+            <material-input [(ngModel)]="addTopicName" label="토론주제 제목" type="text"></material-input>
+        </div>
+
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="addTopicExecute()">
+                추가
+            </material-button>
+            <material-button clear-size (trigger)="addTopicVisible = false">
+                닫기
+            </material-button>
+        </div>
+    </material-dialog>
+</modal>
+
+<modal [visible]="designateVisible" *ngIf="designateVisible">
+    <material-dialog class="basic-scrolling-dialog">
+        <h1 header>토의 사회자 설정</h1>
+        <p>이 참가자를 토의 사회자로 설정하시겠습니까?</p>
+
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="designate_moderator()">
+                네, 그렇습니다.
+            </material-button>
+            <material-button clear-size (trigger)="designateVisible = false">
+                취소
+            </material-button>
+        </div>
+    </material-dialog>
+</modal>
+
+<modal [visible]="observerMenuVisible" *ngIf="observerMenuVisible">
+    <material-dialog class="basic-scrolling-dialog">
+        <h1 header>실험 옵저버 메뉴</h1>
+        <p><a (click)="chatService.start()">세션타이머초기화</a></p>
+        <p><a (click)="chatService.setEnabled(true)">채팅 활성화</a></p>
+        <p><a (click)="chatService.setEnabled(false)">채팅 비활성화</a></p>
+        <div footer>
+            <material-button clear-size (trigger)="observerMenuVisible = false">
+                닫기
+            </material-button>
+        </div>
+    </material-dialog>
+</modal>

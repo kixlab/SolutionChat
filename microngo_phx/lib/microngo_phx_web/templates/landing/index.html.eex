@@ -1,0 +1,17 @@
+<div style="display:flex; flex-direction: column; width:100%; height:100%">
+    <div style="text-align: center;">
+        <div style="display: inline-block">
+            <h3>참가자 ID</h1>
+            <%=@part_id%>
+        </div>
+        <a href="/turk">
+            <div style="display: inline-block; background: #4285f4; color: white; padding: 13px; margin-bottom: 11px; margin: 12px; cursor: pointer;">
+                설문지 작성을 끝냈습니다. 다음 화면으로 이동하기
+            </div>
+        </a>
+    </div>
+    <div style="flex: 1;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSclf8ROnM4k0as1e-P7OlAR5dyZXEZWoKhj_w1ZKhC1BKq6UA/viewform?usp=sf_link" style="width: 100%;height: 99%;border: 0;"></iframe>
+    </div>
+<div>
+

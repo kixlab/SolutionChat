@@ -1,0 +1,21 @@
+.action-button {
+    background-color: #fff;
+    border: 1px solid #f44336;
+    border-radius: 0.75rem;
+    color: #f44336;
+    font-size: 0.875rem;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.action-button > .header {
+    display: inline-block;
+    color: #ff9800;
+}
+
+.action-button > .body {
+    display: inline-block;
+    color: grey;
+}

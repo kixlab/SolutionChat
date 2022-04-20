@@ -1,0 +1,271 @@
+<!-- <div class="tutorial-box">
+    <div class="tutorial-body">
+        <div class="container" style="background: #353866;">
+            <div class="left">
+                <div class="top">
+                    <div class="logo">
+                        ChatToAction
+                    </div>
+                </div>
+            </div>
+            <div class="body">
+                <div class="top">
+                    <div>
+                        <span>연습토론:</span> 교통 사고가 나는 문제
+                    </div>
+                </div>
+            </div>
+            <div style="padding-right: 5px">
+                <div class="presence">
+                    P1
+                </div>
+            </div>
+        </div>
+        <div class="container" style="flex: 1">
+    <div class="left side" style="display: flex; flex-direction: column;">
+        <div class="section" style="flex: 1; overflow: scroll;">
+            <div class="section-header">
+                토론 단계
+            </div>
+            <div *ngFor="let topicName of topics.orders">
+                <div *ngIf="isCurrentTopic(topicName) && moderatorMode"
+                    (click)="addTopicAbove(topicName)"
+                    class="topic-add-button">
+                    여기에 토론 단계 추가
+                </div>
+                <div class="mdc-card" style="width: 90%; margin: 5px;" [class.dimmed]="isCurrentTopic(topicName) == false">
+                    <div style="display: flex; display: -webkit-flex; position: relative; padding: 12px;">
+                        <div class="custom_checkbox clickable"
+                            style="position: absolute;"
+                            (click)="focusModalPopup(topicName)"
+                        >
+                            <div>
+                                {{topicBoxText(topicName)}}
+                            </div>
+                        </div>
+                        <div class="clickable" style="align-self: center; margin-left: 10px; padding-left: 22px;"
+                            [class.current-topic-name]='isCurrentTopic(topicName)' 
+                            (click)="focusModalPopup(topicName)"
+                        >
+                            <div style="font-weight: 700;">
+                                {{topicName}} <span *ngIf="isCurrentTopic(topicName)">({{spendMin}} 분)</span>
+                            </div>
+                            <div style="font-size: 14px;" *ngIf="isCurrentTopic(topicName)">
+                                "#답안" 태그된 메세지 목록
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 12px;">
+                        <div class="candidate" style="padding-left: 0px;"
+                            *ngFor="let answer_name of topicOpinions(topicName)"
+                        >
+                            <div style="display: flex; border: 2px solid #c3c3c3;margin-bottom: 5px;">
+                                <div style="flex: 1;color: black;padding: 5px;text-align: left;">
+                                    <div>
+                                        {{answer_name}}
+                                    </div>
+                                    <div *ngIf="isCurrentTopic(topicName)">
+                                        <div *ngFor="let voterName of topicVotors(topicName, answer_name)"  style="display: inline-block;background: #00756c;font-size: 15px;padding: 5px;color: white;margin-right: 5px;">
+                                            {{voterName}}
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <div style="margin-left: 5px;" *ngIf="isCurrentTopic(topicName)">
+                                    <div style="padding: 3px; cursor: pointer;" (click)="topicVote(topicName, answer_name)">
+                                        <material-icon size="x-small" icon="thumb_up"></material-icon> {{topicVoteCount(topicName, answer_name)}}
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div style="padding-left: 0px; margin-bottom: 5px;" *ngIf="isCurrentTopic(topicName) && moderatorMode">
+                            <div style="position: relative; border: 2px dotted #c3c3c3;">
+                                <input type="text" placeholder="여기에 쓰기" style="width: 156px;margin: 5px;border: none;"
+                                    (keyup.enter)="addAnswerExecute()"
+                                    [(ngModel)]="addAnswerValue"
+                                >
+                                <div style="right: 0; top: 0; position: absolute; color: black;padding: 2px; width: 33px; cursor: pointer;"
+                                    (click)="addAnswerExecute()"
+                                >
+                                    추가
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding-left: 0px; margin-bottom: 5px;" *ngIf="isCurrentTopic(topicName) && moderatorMode == false">
+                            <div style="position: relative; border: 2px dotted #c3c3c3; font-size: small;">
+                                + 채팅메세지를 클릭하여 "#답안" 태그를 추가하세요
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid #dedddd;" *ngIf="isCurrentTopic(topicName) && moderatorMode">
+                        <div class="mdc-card__action-buttons">
+                            <material-button (click)="topicCompletedExecute(currentTopicName)">다음단계 가기</material-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div (click)="addTopicBelow(topicName)" 
+                    *ngIf="isCurrentTopic(topicName) && moderatorMode" class="topic-add-button">
+                    여기에 토론 단계 추가
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body chat">
+        <div class="chat-area" #chatScrollDiv>
+            <div class="chat-list">
+                <div class="chat-item" *ngFor="let message of messageVisibles">
+                    <div class="chat-item"
+                        *ngIf="message.kind == 'consensus'">
+                        <div class="problem-card">
+                            <div style="display: flex">
+                                <div style="margin-right: 60px;">
+                                    <img src="merge.png" style="width: 60px;">
+                                </div>
+                                <div style="font-size: medium;">
+                                    <div style="font-weight: 700;">
+                                        투표 결과
+                                    </div>
+                                    <div>
+                                        Q. {{ (message?.text ?? "").split("|||||").elementAt(0) }} <br/>
+                                        A. {{ (message?.text ?? "").split("|||||").elementAt(1) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item"
+                        *ngIf="message.kind == 'proto2_summary'">
+                        <div class="problem-card">
+                            <div style="display: flex">
+                                <div style="font-size: medium;">
+                                    <div style="font-weight: 700;" *ngIf="!topicDone(message?.text) && topicVoting(message?.text)">
+                                        투표
+                                    </div>
+                                    <div style="font-weight: 700;" *ngIf="!topicDone(message?.text) && topicVoting(message?.text) == false">
+                                        토의 요약
+                                    </div>
+                                    <div style="font-weight: 700;" *ngIf="topicDone(message?.text)">
+                                        토의결과 요약
+                                    </div>
+                                    <div>
+                                        <div>
+                                            Q. {{ (message?.text ?? "") }}
+                                        </div>
+                                        <table>
+                                            <tr *ngIf="topics.data[message?.text].orders.length == 0">
+                                                <td>
+                                                    찾은 답이 없음
+                                                </td>
+                                            </tr>
+                                            <tr *ngFor="let answerName of topics.data[message?.text].orders">
+                                                <td>{{answerName}}</td>
+                                                <td style="width: 100px">
+                                                    <div style="display: flex; padding: 5px;">
+                                                        <button class="button-reaction"
+                                                            *ngIf="!topicDone(message?.text) && topicVoting(message?.text)"
+                                                            (click)="topicVote(message?.text, answerName)" [class.active]="topicVotorIsMe(message?.text, answerName, myName)">
+                                                            투표 &nbsp;<span class="reaction-count">{{topicVoteCount(message?.text, answerName)}}</span>
+                                                        </button>
+                                                        <div *ngIf="topicDone(message?.text) && topicVoting(message?.text)">
+                                                            {{topicVoteCount(message?.text, answerName)}}표
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item"  *ngIf="message.kind == 'help_brainstorming2'">
+                        <div class="problem-card" style="opacity: 0.6">
+                            <div style="font-size: 15px; font-weight: 600; padding: 2px 2px 8px 3px">
+                                답안추가하는 법
+                            </div>
+                            <div style="display: flex">                                
+                                <div class="tut-column">
+                                    <div style="height: 120px;">
+                                        <img src="brainstorm-0.png"/>
+                                    </div>
+                                    1. 답안이될 메세지 클릭
+                                </div>
+                                <div class="tut-column">
+                                    <div style="height: 120px;">
+                                        <img src="brainstorm2-2.png"/>
+                                    </div>
+                                    2. 추가완료
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item" *ngIf="message.kind == 'problem'">
+                        <div class="problem-card">
+                            <div style="display: flex">
+                                <div style="width: 40px; margin-right: 30px; font-size: 18px; display: table-cell; font-weight: 600; padding-top: 7px; padding-left: 6px;">
+                                    <img src="question.jpg" style="width: 30px;">
+                                </div>
+                                <div style="font-size: medium; display: flex; align-items: center;">
+                                    <div style="margin-bottom: 5px; font-size: 18px">
+                                        {{message.text}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item" *ngIf="message.kind == 'agenda'">
+                        <div class="problem-card">
+                            <div style="display: flex">
+                                <div style="margin-right: 60px;">
+                                    <img src="question.jpg" style="width: 60px;">
+                                </div>
+                                <div style="font-size: medium; display: flex; align-items: center;">
+                                    <div style="margin-bottom: 5px; font-size: 30px">
+                                        Q.{{message.text}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-item" *ngIf="message.kind == 'green'">
+                        <div class="light-bar">
+                            {{message.text}}
+                        </div>
+                    </div>
+                    <div class="chat-item" *ngIf="message.kind == 'login'">
+                        <div class="light-bar">
+                            {{translate.t("#user joined the room", {"user": message.text})}}
+                        </div>
+                    </div>
+                    <div class="chat-item" *ngIf="message.kind == 'disconnected'">
+                        <div class="light-bar">
+                            {{translate.t("#user left the room", {"user": message.text})}}
+                        </div>
+                    </div>
+                    <chat-message *ngIf="message.kind == 'normal'" [message]="message" [chatService]="chatService" [appComponent]="self()"></chat-message>
+                    <chat-message *ngIf="message.kind == 'entity'" [message]="message" [chatService]="chatService" [appComponent]="self()"></chat-message>
+                </div>                
+            </div>
+        </div>
+        <div class="bottom-input-area">
+            <div class="message-input-area">
+                <div>
+                    <div class="me-icon">
+                        {{myName}}
+                    </div>
+                </div>
+                <input type="text"
+                       class="msg-input"
+                       label="Sending message" [(ngModel)]="chatInputText" (keyup.enter)="addMessage();"
+                       placeholder=""
+                />
+                <Button (click)="addMessage()">
+                    Send
+                </Button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div> -->

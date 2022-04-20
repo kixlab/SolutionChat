@@ -1,0 +1,12 @@
+<h1>실험 참가 가이드</h1>
+<h2>튜토리얼</h2>
+<p><em>실험 진행자가 실험 컨디션을 알려주면 해당 알파벳의 튜토리얼을 보시기 바랍니다.</em></p>
+<p><a href="#">실험 컨디션 A 튜토리얼 보기</a></p>
+<p><a href="#">실험 컨디션 B 튜토리얼 보기</a></p>
+<p><a href="#">실험 컨디션 C 튜토리얼 보기</a></p>
+<h2>실험 시스템 접속하기</h2>
+<form method="post" action="/join">
+  <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+  <input type="text" name="roomID" placeholder="방번호">
+  <input type="submit" value="입장">
+</form>

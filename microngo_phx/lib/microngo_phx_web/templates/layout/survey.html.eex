@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%;padding: 0;margin: 0;">
+<head>
+	<!-- Basic -->
+	<meta charset="utf-8"></meta>
+	<meta
+		http-equiv="X-UA-Compatible"
+		content="IE=edge"
+	></meta>
+	<title>
+		Survey
+	</title>
+</head>
+<body style="width: 100%;height: 100%;padding: 0;margin: 0;">
+    <%= render @view_module, @view_template, assigns %>
+</body>
+</html>

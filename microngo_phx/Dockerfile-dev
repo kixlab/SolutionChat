@@ -1,0 +1,15 @@
+FROM elixir:1.10.3-alpine AS build
+
+# install build dependencies
+RUN apk add --no-cache build-base npm git python bash inotify-tools netcat-openbsd curl
+
+# prepare build dir
+WORKDIR /app
+
+# install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+WORKDIR /app
+
+EXPOSE 4000

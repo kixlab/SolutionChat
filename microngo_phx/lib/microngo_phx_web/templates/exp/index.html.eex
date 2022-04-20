@@ -1,0 +1,26 @@
+<h1>방 만들기</h1>
+
+<form method="post" action="/exp">
+  <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+  <select name="title">
+    <option value="학교 식당의 불만족스러운 식단 문제">학교 식당의 불만족스러운 식단 문제</option>
+    <option value="수강신청 시스템 학생의 불편 문제">수강신청 시스템 학생의 불편 문제</option>
+    <option value="학점 부여시 발생하는 주관성 문제">학점 부여시 발생하는 주관성 문제</option>
+  </select><br/>
+  <%# <input type="text" name="title" placeholder="방제목"><br/> %>
+
+  <input type="radio" name="condition" value="0"> 0 Structure<br>
+  <input type="radio" name="condition" value="1"> 1 Structure + Focus/List/Vote <br>
+  <input type="radio" name="condition" value="2"> 2 Structure + Realtime Feedback <br>
+  <input type="radio" name="condition" value="3"> 3 All <br>
+<%# 
+  <input type="text" name="condition" placeholder="컨디션"><br/>
+  0 Structure<br/>
+  1 Structure + Focus/List/Vote<br/>
+  2 Structure + Realtime Feedback 3 All<br/> %>
+  <input type="text" name="start" placeholder="시작시간"><br/>
+  YYYY-MM-DD hh:mm (24시간)
+
+  
+  <input type="submit" value="만들기">
+</form>

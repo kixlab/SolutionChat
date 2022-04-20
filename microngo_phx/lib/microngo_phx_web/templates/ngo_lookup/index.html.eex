@@ -1,0 +1,49 @@
+<div role="main" class="main">
+  <section class="page-header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <ul class="breadcrumb">
+            <li><a href="#"><%= gettext "HOME" %></a></li>
+            <li class="active"><%= gettext "Find NGO" %></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1><%= gettext "Find NGO" %></h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2>Active <strong>NGOs</strong></h2>
+
+    <div class="row team-list sort-destination" data-sort-id="team">
+
+    <%= for room <- @rooms do %>
+    <div class="col-12 col-sm-6 col-lg-4 isotope-item leadership">
+      <span class="thumb-info thumb-info-hide-wrapper-bg mb-4">
+        <span class="thumb-info-wrapper">
+          <a href="/ngo/<%=room.id%>">
+            <img src="img/team/team-1.jpg" class="img-fluid" alt="">
+            <span class="thumb-info-title">
+              <span class="thumb-info-inner"><%= room.title %></span>
+              <span class="thumb-info-type">
+                <%= gettext "Start at:"%> <%=exact_time(room.start_at)%><br/>
+                <%=fuzzy_time(room.start_at)%><br/>
+              </span>
+            </span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <% end %>
+
+
+      
+    </div>
+  </div>
+
+</div>

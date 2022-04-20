@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Basic -->
+	<meta charset="utf-8"></meta>
+	<meta
+		http-equiv="X-UA-Compatible"
+		content="IE=edge"
+	></meta>
+	<title>
+		동의서
+	</title>
+</head>
+<body>
+    <%= render @view_module, @view_template, assigns %>
+</body>
+</html>

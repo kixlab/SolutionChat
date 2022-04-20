@@ -1,0 +1,20 @@
+<div style="display:flex; flex-direction: column; width:100%; height:100%">
+    <div style="text-align: center;">
+        <div style="display: inline-block">
+            <h3>참가자 ID (토론자)</h1>
+            <%=@part_id%>
+        </div>
+        <div style="display: inline-block">
+            <h3>채팅방 번호</h1>
+            <%=@form["room_id"] || "없음"%>
+        </div>
+        <div style="display: inline-block">
+            <h3>채팅방에서의 이름</h1>
+            <%=@form["name"] || "없음"%>
+        </div>
+    </div>
+    <div style="flex: 1;">
+        <iframe src="https://goo.gl/forms/tOTBmdoB7ToGIKEQ2" style="width: 100%;height: 99%;border: 0;"></iframe>
+    </div>
+<div>
+

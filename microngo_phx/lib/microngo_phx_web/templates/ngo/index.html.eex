@@ -1,0 +1,161 @@
+<div role="main" class="main">
+  <section class="page-header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <ul class="breadcrumb">
+            <li><a href="#"><%= gettext "HOME" %></a></li>
+            <li class="active"><%= gettext "NGO page" %></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1><%= @room.title %></h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="owl-carousel owl-theme" data-plugin-options="{'items': 1, 'margin': 10}">
+          <div>
+            <span class="img-thumbnail d-block">
+              <img alt="" height="300" class="img-fluid" src="/img/team/team-3.jpg">
+            </span>
+          </div>
+          <div>
+            <span class="img-thumbnail d-block">
+              <img alt="" height="300" class="img-fluid" src="/img/team/team-9.jpg">
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+
+        <h2 class="mb-0"><%= @room.title %></h2>
+        <h4 class="heading-primary"><%= gettext "Current Topic:" %> <%= current_topic_message(@room) %></h4>
+        <hr class="solid">
+        <ul class="list list-icons">
+          <li><i class="fa fa-check"></i> <%= gettext "Start at:" %> <%= exact_time(@room.start_at) %> (<%= fuzzy_time(@room.start_at) %>)</li>
+          <li><i class="fa fa-check"></i> <%= gettext "Status: " %> <%= current_topic_message(@room) %></li>
+        </ul>
+        <a href="/room/index.html?room=<%=@room.id%>&amp;token=<%=@token%>"><button type="button" class="btn btn-primary mb-2"><%= gettext "Enter the chat room" %></button></a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <hr class="solid">
+      </div>
+    </div>
+  </div>
+
+  <section class="parallax section section-parallax section-center" data-plugin-parallax data-plugin-options="{'speed': 1.5}" data-image-src="img/parallax-7.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="owl-carousel owl-theme nav-bottom rounded-nav mt-4 mb-0" data-plugin-options="{'items': 1, 'loop': false}">
+            <div>
+              <div class="col">
+                <div class="testimonial testimonial-style-6 testimonial-with-quotes mb-0">
+                  <blockquote>
+                    <p>Have fun and tackle social problems! Your popular messaage may quoted here.</p>
+                  </blockquote>
+                  <div class="testimonial-author">
+                    <p><strong>SC</strong><span>Micro-NGO Team</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4 class="mt-5 mb-0 text-uppercase"><%= gettext "NGO" %> <strong><%= gettext "Actions" %></strong></h4>
+        <p><%= gettext "Check out the NGO's latest actions" %></p>
+        <ul class="row portfolio-list">
+          <li class="col-12 col-sm-6 col-lg-3">
+            <div class="portfolio-item">
+              <a href="portfolio-single-small-slider.html">
+                <span class="thumb-info thumb-info-lighten">
+                  <span class="thumb-info-wrapper">
+                    <img src="/img/projects/project.jpg" class="img-fluid" alt="">
+                    <span class="thumb-info-title">
+                      <span class="thumb-info-inner">Presentation</span>
+                      <span class="thumb-info-type">Brand</span>
+                    </span>
+                    <span class="thumb-info-action">
+                      <span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </li>
+          <li class="col-12 col-sm-6 col-lg-3">
+            <div class="portfolio-item">
+              <a href="portfolio-single-small-slider.html">
+                <span class="thumb-info thumb-info-lighten">
+                  <span class="thumb-info-wrapper">
+                    <img src="/img/projects/project-2.jpg" class="img-fluid" alt="">
+                    <span class="thumb-info-title">
+                      <span class="thumb-info-inner">Identity</span>
+                      <span class="thumb-info-type">Logo</span>
+                    </span>
+                    <span class="thumb-info-action">
+                      <span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </li>
+          <li class="col-12 col-sm-6 col-lg-3">
+            <div class="portfolio-item">
+              <a href="portfolio-single-small-slider.html">
+                <span class="thumb-info thumb-info-lighten">
+                  <span class="thumb-info-wrapper">
+                    <img src="/img/projects/project-3.jpg" class="img-fluid" alt="">
+                    <span class="thumb-info-title">
+                      <span class="thumb-info-inner">Watch Mockup</span>
+                      <span class="thumb-info-type">Brand</span>
+                    </span>
+                    <span class="thumb-info-action">
+                      <span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </li>
+          <li class="col-12 col-sm-6 col-lg-3">
+            <div class="portfolio-item">
+              <a href="portfolio-single-small-slider.html">
+                <span class="thumb-info thumb-info-lighten">
+                  <span class="thumb-info-wrapper">
+                    <img src="/img/projects/project-4.jpg" class="img-fluid" alt="">
+                    <span class="thumb-info-title">
+                      <span class="thumb-info-inner">Three Bottles</span>
+                      <span class="thumb-info-type">Logo</span>
+                    </span>
+                    <span class="thumb-info-action">
+                      <span class="thumb-info-action-icon"><i class="fa fa-link"></i></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+</div>

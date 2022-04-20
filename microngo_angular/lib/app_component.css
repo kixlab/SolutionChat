@@ -1,0 +1,32 @@
+.me-icon {
+    width: 32px;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 11px;
+    padding: 9px 0px;
+    color: white;
+}
+
+.bottom-input-area {
+  position: relative;
+  background: #f7f7f7;
+}
+
+.message-input-area{
+  padding: 15px 15px 0px 15px;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid black;
+  height: 35px;
+}
+
+.message-input-area > img {
+  margin-top: 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.message-input-area > .msg-input {
+  flex: 1;
+  font-size: medium;
+}

@@ -1,0 +1,109 @@
+<div style="margin-bottom: 15px; position: relative;">
+    <div *ngIf="hintVisible()" 
+        style="position: absolute; right: 0px; top: -38px; text-align: center; font-weight: 700; color: red;">
+        {{chatService.t("Click")}}<br>
+        🡇
+    </div>
+    <div class="step-bar" *ngIf="chatService.voteOnly == false">
+        <div class="field">
+            <div class="step-circle" [class.activated]="voteMode == false">
+                <template [ngIf]="voteMode">
+                    ✔
+                </template>
+                <template [ngIf]="voteMode == false">
+                    1
+                </template>                
+            </div>
+            <div class="step-text" [class.activated]="voteMode == false">
+                {{chatService.t("Brainstorm")}}
+            </div>
+        </div>
+        <div class="field">
+            <div class="step-circle" [class.activated]="voteMode">
+                2
+            </div>
+            <div class="step-text" [class.activated]="voteMode">
+                {{chatService.t("Vote")}}
+            </div>
+        </div>
+    </div>
+    <div *ngIf="chatService.pollRanks.length == 0">
+        <ul style="padding: 0">
+            <li>{{chatService.t("There are no candidates")}}</li>
+        </ul>
+    </div>
+    <ol *ngIf="chatService.pollRanks.length > 0">
+        <li *ngFor="let entity of chatService.pollRanks" style="margin-bottom: 10px;">
+            <div>
+                <div style="display: flex;">
+                    <div style="flex: 1;">
+                        {{entity.title}}<br>
+                        <span style="font-size: small; color: #959596;">
+                            {{percentOfTheVotes(entity.id).toStringAsFixed(2)}}% {{voteShortText(entity.id)}}
+                        </span>
+                    </div>
+                    <div style="display: flex; padding: 5px;" *ngIf="voteMode">
+                        <button class="button-reaction" (click)="chatService.sendVote(chatService.currentPoll.id, entity.id, 1)" [class.active]="chatService.votedBy(entity.id, chatService.me?.id ?? -1)">
+                            {{chatService.t("Vote")}}&nbsp;<span class="reaction-count">{{chatService.voteCountByEntity(entity.id)}}</span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="identicon" title="{{name}}" *ngFor="let name of chatService.voteMemberForEntity(entity.id)">{{chatService.shortUserName(name)}}</div>
+                </div>
+            </div>
+        </li>
+    </ol>
+    <div class="section" *ngIf="voteMode && chatService.pollRanks.length != 0 && chatService.voteMemberForNotVoted().length > 0">
+        <div class="section-header">
+            {{chatService.t("Not voted yet")}}
+        </div>
+        <div style="font-size: small;">
+            <div class="identicon" title="{{name}}" *ngFor="let name of chatService.voteMemberForNotVoted()">{{chatService.shortUserName(name)}}</div>
+        </div>
+    </div>
+    <div class="section">
+        <div *ngIf="chatService.pollRanks.length > 0 && voteMode == false">
+            <button class="button-reaction" (click)="voteModeClick()" [class.active]="voteModeActive()">
+                {{chatService.t("Let's vote")}} <span class="reaction-count">{{chatService.voteModeVotes.length}}/{{chatService.presence.length}}</span>
+            </button>
+        </div>
+        <div *ngIf="chatService.pollRanks.length == 0 && voteMode == false">
+            <button class="button-reaction" (click)="helpBrainstormingVisible = true">
+                {{chatService.t("How to add a candidate?")}}
+            </button>
+        </div>
+    </div>
+</div>
+<modal [visible]="helpBrainstormingVisible">
+    <material-dialog class="basic-scrolling-dialog">
+        <div style="font-size: 15px; font-weight: 600; padding: 2px 2px 8px 3px">
+            {{chatService.t("[Help] Brainstorming Mode")}}
+        </div>
+        <div style="display: flex">                                
+            <div class="tut-column">
+                <div style="height: 120px;">
+                    <img src="brainstorm-0.png"/>
+                </div>
+                {{chatService.t("1. Click the answer message")}}
+            </div>
+            <div class="tut-column">
+                <div style="height: 120px;">
+                    <img src="brainstorm-2.png"/>
+                </div>
+                {{chatService.t("2. Fill candidates list")}}
+            </div>
+            <div class="tut-column">
+                <div style="height: 120px;">
+                    <img src="brainstorm-3.png"/>
+                </div>
+                {{chatService.t("3. Click the start vote mode")}}
+            </div>
+        </div>
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="helpBrainstormingVisible = false">
+                {{chatService.t("Close")}}
+            </material-button>
+        </div>
+    </material-dialog>
+</modal>

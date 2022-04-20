@@ -1,0 +1,24 @@
+{
+    "commands": [
+        {
+            "message": "Let's proceed",
+            "action": "force_next",
+            "action_text": "Bot will proceed to next discussion phase",
+            "target": 3,
+            "votes": ["U1", "U2"]
+        },
+        {
+            "message": "*username* is troll",
+            "action": "report_troll",
+            "target": 3,
+            "votes": ["U1", "U2"]
+        }
+    ],
+    "objectives": [
+        {
+            "type": "promotion",
+            "target": 10,
+            "text": "10 promoted ideas"
+        }
+    ]
+}

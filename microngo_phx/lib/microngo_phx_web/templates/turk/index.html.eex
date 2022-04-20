@@ -1,0 +1,40 @@
+<div
+	role="main"
+	class="main"
+>
+  <div class="container">
+    <h1>Task: Join a Group Chat for Social Problem Solving</h1>
+    <h2>Social Problem: What should we do to fight net-neuturality.</h2>
+    <h2>How to Join?: See the timeslot below and click the join button.</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Sign Up for a Chat Session</h3>
+        <table>
+          <tr>
+            <td>Time</td>
+            <td>Target Participant</td>
+            <td>Signup Count</td>
+            <td>Join</td>
+          </tr>
+          <tr>
+            <td>2018-01-01 13:22:00 PST</td>
+            <td>5 Peoples</td>
+            <td>5 Peoples</td>
+            <td>Join</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h3>Enter the Current Chat Session</h3>
+        <h4>Start Time: 2018-01-01 13:22:00 PST</h4>
+
+        <div style="margin-bottom: 10px;">
+          <h5>Enter email address</h5>
+          <input type="text">
+        </div>
+        <a href="#"><button type="button" class="btn btn-primary mb-2"><%= gettext "Enter the chat room" %></button></a>
+      </div>
+    </div>
+  </div>	
+</div>

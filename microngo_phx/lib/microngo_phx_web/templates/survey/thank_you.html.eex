@@ -1,0 +1,7 @@
+<div role="main" class="main">
+  <div class="container">
+    <h1>Thank You</h1>
+    <h1>Your reward code</h1>
+    <h1><%= @code %></h1>
+  </div>	
+</div>

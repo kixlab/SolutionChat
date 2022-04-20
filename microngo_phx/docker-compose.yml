@@ -1,0 +1,39 @@
+version: '3.2'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - ./_build/docker/_build:/app/_build
+      - ./_build/docker/deps:/app/deps
+      - ./_build/docker/.elixir_ls:/app/.elixir_ls
+    depends_on:
+      - sc-db
+      - sc-nlu
+    command:
+      - ./run-dev.sh
+  sc-db:
+    image: postgres:10
+    volumes:
+        - solutionchat_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+  sc-nlu:
+    build: ./nlu_docker
+    volumes:
+      - type: bind
+        source: ./nlu_data
+        target: /root/nlu/data
+volumes:
+  solutionchat_db:

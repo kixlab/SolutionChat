@@ -1,0 +1,233 @@
+<div role="main" class="main">
+  <div class="container">
+    <form method="post" action="/survey">
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <h1>After Participation Survey</h1>
+    <%= if Map.get(@form, "error", "") != "" do %>
+      <h2>error!</h2>
+      <p><%= Map.get(@form, "error", "") %></p>
+    <% end %>
+    <h2>Decision Recall</h2>
+    <h3>If you cannot remember or the following criteria is not discussd in the discussion leave it blank.</h2>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>1. What was the main problem that you discussed in the discussion?</h3>
+        <textarea name="problem" rows="2" cols="50"><%=Map.get(@form, "problem", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>2. What was the main cause for the problem?</h3>
+        <textarea name="cause" rows="2" cols="50"><%=Map.get(@form, "cause", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>3. What was the main solution for the cause?</h3>
+        <textarea name="solution" rows="2" cols="50"><%=Map.get(@form, "solution", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>4. What was the pros and cons of the solution?</h3>
+        <textarea name="pros" rows="2" cols="50"><%=Map.get(@form, "pros", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>5. What was the cons of the solution?</h3>
+        <textarea name="cons" rows="2" cols="50"><%=Map.get(@form, "cons", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>6. What action did we decide to take?</h3>
+        <input type="radio" name="action_type" value="petition" <%= checked(@form, "action_type", "petition") %>> Writing a Petition Letter <br/>
+        <input type="radio" name="action_type" value="campaign" <%= checked(@form, "action_type", "campaign") %>> Open a online campaign
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>7. How much do you agree for the solution and action?</h3>
+        <div style="display: flex;">
+          <div>
+            Not Agree
+          </div>
+          <div>
+            <input <%= check(@form, "agree", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "agree", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            Agree
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>8. How would you take action if you are willing to execute the consensed action plan?</h3>
+        <textarea rows="2" cols="50" name="action_further"><%=Map.get(@form, "action_further", "")%></textarea>
+      </div>
+    </div>
+
+    <h2>Discussion Experiences</h2>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>9. How easy it was to use the program?</h3>
+        <div style="display: flex;">
+          <div style="width: 120px; text-align: right;">
+            Difficult
+          </div>
+          <div>
+            <input <%= check(@form, "easy", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "easy", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            Easy
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>10. The degree of confusion in the discussion process?</h3>
+        <div style="display: flex;">
+          <div style="width: 120px; text-align: right;">
+            Not confused
+          </div>
+          <div>
+            <input <%= check(@form, "confusion", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            Confused
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>11. The degree of confusion in using the system?</h3>
+        <div style="display: flex;">
+          <div style="width: 120px; text-align: right;">
+            Not confused
+          </div>
+          <div>
+            <input <%= check(@form, "confusion2", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "confusion2", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            Confused
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>12. In connection with the two questions above, please describe the confusion you experienced during the discussion process.</h3>
+        <textarea name="confusion3" rows="2" cols="50"><%=Map.get(@form, "confusion3", "")%></textarea>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>13. How much did the system help you reach a consensus?</h3>
+        <div style="display: flex;">
+          <div style="width: 120px; text-align: right;">
+            Not helpful
+          </div>
+          <div>
+            <input <%= check(@form, "helpful", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "helpful", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            Helpful
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>14. How much did you enjoy the discussion?</h3>
+        <div style="display: flex;">
+          <div style="width: 120px; text-align: right;">
+            I did not enjoyed
+          </div>
+          <div>
+            <input <%= check(@form, "enjoy", "1") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "2") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "3") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "4") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "5") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "6") %> style="margin: 10px;">
+            <input <%= check(@form, "enjoy", "7") %> style="margin: 10px;">
+          </div>
+          <div style="float:right">
+            I did enjoyed
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Participation Detail</h2>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>15. Chat room number?</h3>
+        <input type="text" name="room_id" value="<%= Map.get(@form, "room_id", "") %>">
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>16. Your chat name?</h3>
+        <input type="text" name="name" value="<%= Map.get(@form, "name", "") %>">
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-12">
+        <h3>17. If you want to participate post-interview later</h3>
+        <h3>Email</h3>
+        <input type="text" name="email" value="<%= Map.get(@form, "email", "") %>">
+      </div>
+    </div>
+
+    <div class="row">
+      <button type="submit" class="btn btn-primary btn-xl mb-2">Submit and Get a Reward Code</button>
+    </div>
+    </form>
+  </div>	
+</div>
